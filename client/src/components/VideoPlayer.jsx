@@ -8,6 +8,12 @@ function VideoPlayer() {
   const [isMuted, setIsMuted] = useState(true);
   const playerRef = useRef(null);
   const playerContainerRef = useRef(null);
+    const [isWifiConnected, setIsWifiConnected] = useState({
+    status: "disconnected",
+    message: "",
+    ssid: "",
+    password: "",
+  });
 
 
     const checkWifiConnection = async () => {

@@ -24,6 +24,7 @@
 import { exec } from "child_process";
 
 export default async function openBrowser() {
+    console.log("try opening");
   exec("chromium-browser --kiosk --start-fullscreen --noerrdialogs --disable-infobars --hide-scrollbar http://localhost:5173/", (error) => {
     if (error) {
       console.error("✖ Failed to open Chromium in kiosk mode:", error);

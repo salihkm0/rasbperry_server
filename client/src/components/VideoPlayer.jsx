@@ -136,6 +136,41 @@ function VideoPlayer() {
       >
         Fullscreen
       </button>
+
+      {/* Wi-Fi disconnected status popup */}
+      {isWifiConnected.status === "disconnected" && (
+        <div
+          style={{
+            position: "fixed",
+            top: "20px",
+            left: 0,
+            width: "auto",
+            height: "70px",
+            color: "#ff0000",
+            zIndex: 1000,
+            fontSize: "14px",
+            fontWeight: "bold",
+            textAlign: "center",
+            padding: "20px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "start",
+            justifyContent: "start",
+          }}
+        >
+          <p> Wi-Fi Not Connected </p>
+          <p style={{ fontSize: "10px" }}>
+            Please connect to
+            <span style={{ color: "#f1bf19" }}> {isWifiConnected.ssid}</span>
+            with password
+            <span style={{ color: "#f1bf19" }}>
+              {" "}
+              {isWifiConnected.password}
+            </span>
+            .
+          </p>
+        </div>
+      )}
     </div>
   );
 }

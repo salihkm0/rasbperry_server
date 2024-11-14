@@ -9,21 +9,21 @@ import { SCAN_INTERVAL } from "../config/wifiConfig.js";
 
 // Initialize wifi with the network interface
 wifi.init({
-  iface: "en0", 
-//   iface: "wlan0", 
+//   iface: "en0", 
+  iface: "wlan0", 
 });
 
 const initializeServer = async (app) => {
   // Check and wait for Wi-Fi connection
   console.log("🔄 Waiting for Wi-Fi connection...");
   let connected = false;
-//   while (!connected) {
-//     connected = await checkConnection();
-//     if (!connected) {
-//       console.log(`🔄 Retrying connection in ${SCAN_INTERVAL / 1000} seconds...`);
-//       await new Promise((resolve) => setTimeout(resolve, SCAN_INTERVAL));
-//     }
-//   }
+  while (!connected) {
+    connected = await checkConnection();
+    if (!connected) {
+      console.log(`🔄 Retrying connection in ${SCAN_INTERVAL / 1000} seconds...`);
+      await new Promise((resolve) => setTimeout(resolve, SCAN_INTERVAL));
+    }
+  }
 
   // Once connected, proceed with the remaining tasks
   console.log("✔ Wi-Fi connected. Proceeding with server initialization...");
@@ -46,7 +46,7 @@ const initializeServer = async (app) => {
     await openBrowser();
 
     // Set up regular Wi-Fi checks
-    // setInterval(checkConnection, SCAN_INTERVAL);
+    setInterval(checkConnection, SCAN_INTERVAL);
   });
 };
 

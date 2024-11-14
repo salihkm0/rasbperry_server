@@ -8,17 +8,18 @@ function VideoPlayer() {
   const [isMuted, setIsMuted] = useState(true);
   const playerRef = useRef(null);
   const playerContainerRef = useRef(null);
-    const [isWifiConnected, setIsWifiConnected] = useState({
+  const [isWifiConnected, setIsWifiConnected] = useState({
     status: "disconnected",
     message: "",
     ssid: "",
     password: "",
   });
 
-
-    const checkWifiConnection = async () => {
+  const checkWifiConnection = async () => {
     try {
-      const response = await axios.get("http://localhost:3001/api/wifi-details");
+      const response = await axios.get(
+        "http://localhost:3001/api/wifi-details"
+      );
       setIsWifiConnected(response.data);
     } catch (error) {
       console.error("Error fetching Wi-Fi connection details:", error);
@@ -44,6 +45,18 @@ function VideoPlayer() {
   };
 
   useEffect(() => {
+    checkWifiConnection();
+
+    const wifiInterval = setInterval(() => {
+      checkWifiConnection();
+    }, 30000);
+
+    return () => {
+      clearInterval(wifiInterval);
+    };
+  }, []);
+
+  useEffect(() => {
     // Initial fetch
     fetchVideos().then((initialVideos) => setVideos(initialVideos));
 
@@ -62,8 +75,8 @@ function VideoPlayer() {
 
   // Handle video end event to loop infinitely through videos
   const handleVideoEnd = () => {
-    setCurrentVideoIndex((prevIndex) =>
-      (prevIndex + 1) % videos.length // Move to next video or loop back to the first
+    setCurrentVideoIndex(
+      (prevIndex) => (prevIndex + 1) % videos.length // Move to next video or loop back to the first
     );
   };
 
@@ -191,7 +204,7 @@ export default VideoPlayer;
 //     // Poll every minute to check for changes in video list and Wi-Fi connection
 //     const interval = setInterval(async () => {
 //       const latestVideos = await fetchVideos();
-//       // checkWifiConnection(); // Re-check Wi-Fi connection every minute
+// checkWifiConnection(); // Re-check Wi-Fi connection every minute
 
 //       if (hasVideoListChanged(latestVideos, videos)) {
 //         console.log("Video list changed, restarting the video player.");
@@ -459,8 +472,8 @@ export default VideoPlayer;
 //           <p> Wi-Fi Not Connected </p>
 //           <p style={{ fontSize: "10px" }}>
 //             Please connect to
-//             <span style={{ color: "#f1bf19" }}> {isWifiConnected.ssid}</span> 
-//             with password 
+//             <span style={{ color: "#f1bf19" }}> {isWifiConnected.ssid}</span>
+//             with password
 //             <span style={{ color: "#f1bf19" }}> {isWifiConnected.password}</span>.
 //           </p>
 //         </div>
